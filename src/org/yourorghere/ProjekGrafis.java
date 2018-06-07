@@ -100,7 +100,20 @@ public class ProjekGrafis implements GLEventListener, MouseListener, MouseMotion
         gl.glRotatef(view_rotx, 1.0f, 0.0f, 0.0f);
         gl.glRotatef(view_roty, 0.0f, 1.0f, 0.0f);
         gl.glTranslatef(-0.5f, -0.5f, -0.5f);
-        Objek.Kubus(gl);
+        
+        gl.glTranslatef(0.8f, 0.8f, 0.1f);
+        gl.glRotatef(180, 0.0f, 0.0f, 1.0f);
+        gl.glPushMatrix();
+        Objek.Baling(gl); 
+        gl.glPopMatrix();
+        gl.glTranslatef(-0.8f, -1.6f, -0.1f);
+        
+        gl.glTranslatef(2.4f, 3.2f, 0.1f);
+        gl.glRotatef(-180, 0.0f, 0.0f, 1.0f);
+        gl.glPushMatrix();
+        Objek.Baling(gl); 
+        gl.glPopMatrix();
+        
         gl.glFlush();
     }
 
