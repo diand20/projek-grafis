@@ -99,30 +99,41 @@ public class ProjekGrafis implements GLEventListener, MouseListener, MouseMotion
         gl.glTranslatef(0.5f, 0.5f, 0.5f);
         gl.glRotatef(view_rotx, 1.0f, 0.0f, 0.0f);
         gl.glRotatef(view_roty, 0.0f, 1.0f, 0.0f);
-        gl.glTranslatef(-0.5f, -0.5f, -0.5f);
-        
+
         gl.glPushMatrix();
-        Objek.Bola(gl); 
+        gl.glTranslatef(3.0f, -1.0f, -5.0f);
+        gl.glPushMatrix();
+        Objek.Tangan(gl);
         gl.glPopMatrix();
-        
+
+        gl.glPushMatrix();
+        gl.glTranslatef(3.0f, -1.0f, -3.5f);
+        gl.glPushMatrix();
+        Objek.Tangan(gl);
+        gl.glPopMatrix();
+
+        gl.glPushMatrix();
+        Objek.Bola(gl);
+        gl.glPopMatrix();
+
         gl.glTranslatef(0.8f, 0.8f, 0.1f);
         gl.glRotatef(180, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl); 
+        Objek.Baling(gl);
         gl.glPopMatrix();
         gl.glTranslatef(-0.8f, -1.6f, -0.1f);
-        
+
         gl.glTranslatef(2.4f, 3.2f, 0.1f);
         gl.glRotatef(-180, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl); 
+        Objek.Baling(gl);
         gl.glPopMatrix();
-        
+
         gl.glTranslatef(0.8f, 0.8f, 0.0f);
         gl.glPushMatrix();
-        Objek.Tabung(gl); 
+        Objek.Tabung(gl);
         gl.glPopMatrix();
-        
+
         gl.glTranslatef(-0.8f, 1.0f, 0.0f);
         gl.glRotatef(-90, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
@@ -134,7 +145,7 @@ public class ProjekGrafis implements GLEventListener, MouseListener, MouseMotion
         gl.glPushMatrix();
         Objek.Baling(gl);
         gl.glPopMatrix();
-        
+
         gl.glFlush();
     }
 
