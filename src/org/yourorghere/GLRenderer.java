@@ -20,11 +20,11 @@ public class GLRenderer implements GLEventListener {
             z = startZ;
         }
     }
-    vector lineal = new vector(0f, 0f, -1f);//deklarasi awal vektor untuk maju
+    vector lineal1 = new vector(0f, 0f, -1f);//deklarasi awal vektor untuk maju
     vector lineal2 = new vector(0f, 0f, 1f);
-    vector lateral = new vector(-1f, 0f, 0f);//deklarasi awal vektor untuk maju
+    vector lateral1 = new vector(-1f, 0f, 0f);//deklarasi awal vektor untuk maju
     vector lateral2 = new vector(1f, 0f, 0f);
-    vector vertical = new vector(0f, 1f, 0f);//deklarasi awal vetor untuk gerakan naik
+    vector vertical1 = new vector(0f, 1f, 0f);//deklarasi awal vetor untuk gerakan naik
     vector vertical2 = new vector(0f, -1f, 0f);
     vector horizontal = new vector(0f, -1f, 0f);
 
@@ -91,48 +91,88 @@ public class GLRenderer implements GLEventListener {
                 0, 1, 0);
         gl.glPushMatrix();
         gl.glTranslatef(3.0f, -1.0f, -5.0f);
+        gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
         gl.glPushMatrix();
-        Objek.Tangan(gl);
+        Objek.Tangan(gl, 1.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
+        gl.glRotatef(110, 0.0f, 1.0f, 0.0f);
+        gl.glTranslatef(-0.3f, -0.3f, 1.65f);
+        gl.glPushMatrix();
+        Objek.Tabung(gl, 0.67f, 3.0f, 1.0f, 1.0f, 0.0f);
+        gl.glPopMatrix();
+
+        gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
+        gl.glTranslatef(0.0f, 4.0f, -1.8f);
+        gl.glPushMatrix();
+        Objek.Tabung(gl, 0.67f, 2.5f, 1.0f, 1.0f, 0.0f);
+        gl.glPopMatrix();
+        gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
+
+        gl.glPopMatrix();
+        
+        gl.glLoadIdentity();
+        glu.gluLookAt(Cx, Cy, Cz,
+                Lx, Ly, Lz,
+                0, 1, 0);
         gl.glPushMatrix();
         gl.glTranslatef(3.0f, -1.0f, -3.5f);
-        gl.glPushMatrix();
-        Objek.Tangan(gl);
-        gl.glPopMatrix();
 
+//        gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
         gl.glPushMatrix();
-        Objek.Bola(gl);
+        Objek.Tangan(gl, 1.0f, 0.5f, 0.0f);
+        gl.glPopMatrix();
+//      gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
+        
+        gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
+        gl.glTranslatef(-0.5f, -1.2f, 0.0f);
+        gl.glTranslatef(0.0f, 0.0f, gerakBaling);
+        gl.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+        
+        gl.glPushMatrix();
+        Objek.Bola(gl, 1.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
         gl.glTranslatef(0.8f, 0.8f, 0.1f);
         gl.glRotatef(180, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl);
+        Objek.Baling(gl, 1.0f, 1.0f, 1.0f);
         gl.glPopMatrix();
         gl.glTranslatef(-0.8f, -1.6f, -0.1f);
 
         gl.glTranslatef(2.4f, 3.2f, 0.1f);
         gl.glRotatef(-180, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl);
+        Objek.Baling(gl, 1.0f, 1.0f, 1.0f);
         gl.glPopMatrix();
 
         gl.glTranslatef(0.8f, 0.8f, 0.0f);
         gl.glPushMatrix();
-        Objek.Tabung(gl);
+        Objek.Tabung(gl, 0.15f, 3.0f, 1.0f, 0.0f, 0.0f);
         gl.glPopMatrix();
 
         gl.glTranslatef(-0.8f, 1.0f, 0.0f);
         gl.glRotatef(-90, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl);
+        Objek.Baling(gl, 0.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
         gl.glTranslatef(1.8f, 1.6f, 0.0f);
         gl.glRotatef(180, 0.0f, 0.0f, 1.0f);
         gl.glPushMatrix();
-        Objek.Baling(gl);
+        Objek.Baling(gl, 0.0f, 1.0f, 0.0f);
+        gl.glPopMatrix();
+        
+        gl.glRotatef(-angle, 0.0f, 0.0f, 1.0f);
+        angle = angle + 10.0f;
+
+        if (gerakBaling > -9.0f) {
+            gerakBaling = gerakBaling - 0.1f;
+        }
+        if (gerakTangan > -3.0f) {
+            gerakTangan = gerakTangan - 0.1f;
+        }
+        
         gl.glPopMatrix();
     // Flush all drawing operations to the graphics card
         gl.glFlush();
@@ -144,29 +184,25 @@ public class GLRenderer implements GLEventListener {
 
     public void Key_Pressed(int keyCode) {
 
-        //huruf S    
+          //huruf S    
         if (keyCode == 83) {
-            vectorMovement(lineal, 2f, -1f);
-        } //huruf D    
-        else if (keyCode == 68) {
-            vectorMovement(lateral2, 2f, -1f);
-        } //huruf A    
-        else if (keyCode == 65) {
-            vectorMovement(lateral, 2f, -1f);
-        }//W
+            vectorMovement(lineal1, 2f, -1f);
+        } //huruf W
         else if (keyCode == 87) {
             vectorMovement(lineal2, 2f, -1f);
-        } //kiri    
+        } //panah kiri    
         else if (keyCode == 37) {
-            vectorMovement(lateral, 2f, -1f);
+            vectorMovement(lateral1, 2f, -1f);
         } //panah atas      
         else if (keyCode == 38) {
-            vectorMovement(vertical, 2f, -1f);
-        } else if (keyCode == 40) {
-            vectorMovement(vertical2, 2f, -1f);
-        } else if (keyCode == 39) {
+            vectorMovement(vertical1, 2f, -1f);
+        } //panah kanan
+        else if (keyCode == 39) {
             vectorMovement(lateral2, 2f, -1f);
-        } else if (keyCode == 71) {
+        } //panah bawah
+        else if (keyCode == 40) {
+            vectorMovement(vertical2, 2f, -1f);
+        }  else if (keyCode == 71) {
             Cx = 2f;
             Cy = 10f;
             Cz = -6f;
