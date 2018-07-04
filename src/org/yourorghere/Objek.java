@@ -124,7 +124,7 @@ public class Objek {
         gl.glVertex3f(-1.5f, 1.6f, -0.5f);
         gl.glVertex3f(0.0f, 1.25f, -0.5f);
         gl.glEnd();
-        
+
         gl.glBegin(GL.GL_POLYGON);
         gl.glVertex3f(-1.5f, 1.0f, 0.0f);
         gl.glVertex3f(-2.6f, 1.0f, 0.0f);
@@ -313,7 +313,7 @@ public class Objek {
         gl.glVertex3f(-1.0f, -1.0f, -0.5f);
         gl.glEnd();
     }
-    
+
     static void Baling(GL gl, float warna1, float warna2, float warna3) {
         gl.glColor3f(warna1, warna2, warna3);
         gl.glBegin(GL.GL_POLYGON);
@@ -369,7 +369,8 @@ public class Objek {
         gl.glVertex3f(-1.5f, 0.7f, -0.15f);
         gl.glEnd();
     }
-     static void Tabung(GL gl, float radius, float lenght, float warna1, float warna2, float warna3) {
+
+    static void Tabung(GL gl, float radius, float lenght, float warna1, float warna2, float warna3) {
         gl.glColor3f(warna1, warna2, warna3);
         float BODY_LENGTH = lenght;
         float BODY_RADIUS = radius;
@@ -383,9 +384,9 @@ public class Objek {
         glu.gluDisk(q, 0.0f, BODY_RADIUS, SLICES, STACKS);
     }
 
-    static void Bola(GL gl, float warna1, float warna2, float warna3) {
+    static void Bola(GL gl, float radius, float warna1, float warna2, float warna3) {
         gl.glColor3f(warna1, warna2, warna3);
-        float BODY_RADIUS = 0.2f;
+        float BODY_RADIUS = radius;
         int SLICES = 30;
         int STACKS = 30;
         GLU glu = new GLU();

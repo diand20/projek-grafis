@@ -56,6 +56,7 @@ public class GLRenderer implements GLEventListener {
                 + gl.getClass().getName());
         // Enable VSync
         gl.setSwapInterval(1);
+        gl.glEnable(GL.GL_DEPTH_TEST);
         // Setup the drawing area and shading mode
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
@@ -76,6 +77,8 @@ public class GLRenderer implements GLEventListener {
         gl.glLoadIdentity();
     }
     float angle = 0, gerakTangan = 0, gerakBaling = -2.3f;
+    boolean gerakkanan = false;
+    float anglel = 0, direction = 1;
 
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
@@ -90,27 +93,57 @@ public class GLRenderer implements GLEventListener {
                 Lx, Ly, Lz,
                 0, 1, 0);
         gl.glPushMatrix();
-        gl.glTranslatef(3.0f, -1.0f, -5.0f);
-        gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
+        gl.glTranslatef(2.0f, -1.0f, -5.0f);
+        if (gerakkanan == true) {
+            gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
+        }
         gl.glPushMatrix();
         Objek.Tangan(gl, 1.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
         gl.glRotatef(110, 0.0f, 1.0f, 0.0f);
-        gl.glTranslatef(-0.3f, -0.3f, 1.65f);
+        gl.glTranslatef(-0.3f, -0.24f, 1.65f);
         gl.glPushMatrix();
         Objek.Tabung(gl, 0.67f, 3.0f, 1.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
-        gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
-        gl.glTranslatef(0.0f, 4.0f, -1.8f);
-        gl.glPushMatrix();
-        Objek.Tabung(gl, 0.67f, 2.5f, 1.0f, 1.0f, 0.0f);
+        if (gerakkanan == true) {
+            gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
+        }
         gl.glPopMatrix();
-        gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
 
+        gl.glLoadIdentity();
+        glu.gluLookAt(Cx, Cy, Cz,
+                Lx, Ly, Lz,
+                0, 1, 0);
+        gl.glPushMatrix();
+        gl.glTranslatef(7.2f, 2.5f, -6.6f);
+        if (gerakkanan == true) {
+            gl.glRotatef(-anglel, 0.3f, 0.0f, 1.0f);
+        }
+        gl.glPushMatrix();
+        Objek.Bola(gl, 0.70f, 1.0f, 0.0f, 0.0f);
         gl.glPopMatrix();
-        
+
+        gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
+        gl.glTranslatef(0.0f, -0.1f, 0.7f);
+        gl.glPushMatrix();
+        Objek.Tabung(gl, 0.60f, 2.5f, 1.0f, 1.0f, 0.0f);
+        gl.glPopMatrix();
+
+        gl.glTranslatef(0.0f, 0.1f, 3.2f);
+        gl.glPushMatrix();
+        Objek.Bola(gl, 0.70f, 1.0f, 0.0f, 0.0f);
+        gl.glPopMatrix();
+
+        if (anglel < 25) {
+            anglel += direction;
+        }
+        if (anglel >= 25 || anglel <= 0) {
+            direction = -direction;
+        }
+        gl.glPopMatrix();
+
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz,
                 Lx, Ly, Lz,
@@ -123,14 +156,14 @@ public class GLRenderer implements GLEventListener {
         Objek.Tangan(gl, 1.0f, 0.5f, 0.0f);
         gl.glPopMatrix();
 //      gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
-        
+
         gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
         gl.glTranslatef(-0.5f, -1.2f, 0.0f);
         gl.glTranslatef(0.0f, 0.0f, gerakBaling);
         gl.glRotatef(angle, 0.0f, 0.0f, 1.0f);
-        
+
         gl.glPushMatrix();
-        Objek.Bola(gl, 1.0f, 1.0f, 0.0f);
+        Objek.Bola(gl, 0.2f, 1.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
 
         gl.glTranslatef(0.8f, 0.8f, 0.1f);
@@ -162,19 +195,19 @@ public class GLRenderer implements GLEventListener {
         gl.glPushMatrix();
         Objek.Baling(gl, 0.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
-        
+
         gl.glRotatef(-angle, 0.0f, 0.0f, 1.0f);
         angle = angle + 10.0f;
 
         if (gerakBaling > -9.0f) {
             gerakBaling = gerakBaling - 0.1f;
         }
-        if (gerakTangan > -3.0f) {
-            gerakTangan = gerakTangan - 0.1f;
+        if (gerakTangan > -1.5f) {
+            gerakTangan = gerakTangan - 0.055f;
         }
-        
+
         gl.glPopMatrix();
-    // Flush all drawing operations to the graphics card
+        // Flush all drawing operations to the graphics card
         gl.glFlush();
     }
 
@@ -184,7 +217,7 @@ public class GLRenderer implements GLEventListener {
 
     public void Key_Pressed(int keyCode) {
 
-          //huruf S    
+        //huruf S    
         if (keyCode == 83) {
             vectorMovement(lineal1, 2f, -1f);
         } //huruf W
@@ -202,7 +235,7 @@ public class GLRenderer implements GLEventListener {
         } //panah bawah
         else if (keyCode == 40) {
             vectorMovement(vertical2, 2f, -1f);
-        }  else if (keyCode == 71) {
+        } else if (keyCode == 71) {
             Cx = 2f;
             Cy = 10f;
             Cz = -6f;
@@ -216,6 +249,9 @@ public class GLRenderer implements GLEventListener {
             Lx = 0;
             Ly = 0;
             Lz = -20;
+        } //huruf R 
+        else if (keyCode == 82) {
+            gerakkanan = true;
         } else {
 //            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.     
         }
