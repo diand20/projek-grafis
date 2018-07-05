@@ -77,7 +77,7 @@ public class GLRenderer implements GLEventListener {
         gl.glLoadIdentity();
     }
     float angle = 0, gerakTangan = 0, gerakBaling = -2.3f;
-    boolean gerakkanan = false;
+    boolean gerakkanan = false, gerakkiri = false, gerakatas = false;
     float anglel = 0, direction = 1;
 
     public void display(GLAutoDrawable drawable) {
@@ -119,7 +119,7 @@ public class GLRenderer implements GLEventListener {
         gl.glPushMatrix();
         gl.glTranslatef(7.2f, 2.5f, -6.6f);
         if (gerakkanan == true) {
-            gl.glRotatef(-anglel, 0.3f, 0.0f, 1.0f);
+            gl.glRotatef(-anglel, 0.1f, 0.0f, 1.0f);
         }
         gl.glPushMatrix();
         Objek.Bola(gl, 0.70f, 1.0f, 0.0f, 0.0f);
@@ -150,17 +150,24 @@ public class GLRenderer implements GLEventListener {
                 0, 1, 0);
         gl.glPushMatrix();
         gl.glTranslatef(3.0f, -1.0f, -3.5f);
-
-//        gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
+        if (gerakkiri == true) {
+        gl.glTranslatef(gerakTangan, 0.0f, 0.0f);
+        }
         gl.glPushMatrix();
         Objek.Tangan(gl, 1.0f, 0.5f, 0.0f);
         gl.glPopMatrix();
-//      gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
-
+        if (gerakkiri == true) {
+            gl.glTranslatef(-gerakTangan, 0.0f, 0.0f);
+        }
         gl.glRotatef(90, 1.0f, 0.0f, 0.0f);
         gl.glTranslatef(-0.5f, -1.2f, 0.0f);
-        gl.glTranslatef(0.0f, 0.0f, gerakBaling);
-        gl.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+        if (gerakatas == true) {
+            gl.glTranslatef(0.0f, 0.0f, gerakBaling);
+            gl.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+        } else {
+            gl.glTranslatef(0.0f, 0.0f, -2.3f);
+        }
 
         gl.glPushMatrix();
         Objek.Bola(gl, 0.2f, 1.0f, 1.0f, 0.0f);
@@ -195,8 +202,9 @@ public class GLRenderer implements GLEventListener {
         gl.glPushMatrix();
         Objek.Baling(gl, 0.0f, 1.0f, 0.0f);
         gl.glPopMatrix();
-
-        gl.glRotatef(-angle, 0.0f, 0.0f, 1.0f);
+        if (gerakatas == true) {
+            gl.glRotatef(-angle, 0.0f, 0.0f, 1.0f);
+        }
         angle = angle + 10.0f;
 
         if (gerakBaling > -9.0f) {
@@ -235,23 +243,30 @@ public class GLRenderer implements GLEventListener {
         } //panah bawah
         else if (keyCode == 40) {
             vectorMovement(vertical2, 2f, -1f);
-        } else if (keyCode == 71) {
+        } //huruf T 
+        else if (keyCode == 84) {
             Cx = 2f;
             Cy = 10f;
             Cz = -6f;
             Lx = 0f;
             Ly = -90f;
             Lz = 0f;
-        } else if (keyCode == 72) {
+        } //huruf N 
+        else if (keyCode == 78) {
             Cx = 5;
             Cy = 0;
             Cz = 5;
             Lx = 0;
             Ly = 0;
             Lz = -20;
+        } //huruf l 
+        else if (keyCode == 76) {
+            gerakkiri = true;
+            gerakatas = true;
         } //huruf R 
         else if (keyCode == 82) {
             gerakkanan = true;
+            gerakatas = true;
         } else {
 //            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.     
         }
